@@ -19,13 +19,13 @@ public class EditMerchantScreen {
     private By EditMerchantTitle=By.xpath("//h5[contains(.,'Edit Merchant')]");
     private By MerchantNameField=By.xpath("//input[@name='merchantName']");
     private By MerchantCodeField=By.xpath("//input[@name='merchantCode']");
-    private By MerchantCountryField=By.xpath("//input[@id='react-select-3-input']");
+    private By MerchantCountryField=By.xpath("//input[@id='react-select-2-input']");
     private By MerchantCountryText=By.xpath("//div[@class='col'][contains(.,'Merchant country')]//div[@class=' css-qc6sy-singleValue']");
-    private By MerchantCityField=By.xpath("//input[@id='react-select-4-input']");
+    private By MerchantCityField=By.xpath("//input[@id='react-select-3-input']");
     private By MerchantCityText=By.xpath("//div[@class='city col']//div[@class=' css-qc6sy-singleValue']");
-    private By MerchantStatus=By.xpath("//input[@id='react-select-5-input']");
+    private By MerchantStatus=By.xpath("//input[@id='react-select-4-input']");
     private By MerchantStatusText=By.xpath("//div[@class='col'][contains(.,'Merchant Status')]//div[@class=' css-qc6sy-singleValue']");
-    private By MerchantLanguageField=By.xpath("//input[@id='react-select-6-input']");
+    private By MerchantLanguageField=By.xpath("//input[@id='react-select-5-input']");
     private By MerchantStatusAndLanguageText=By.xpath("//div[@class='col'][contains(.,'Default Language')]//div[@class=' css-qc6sy-singleValue']");
     private By MerchantEmailField=By.xpath("//input[@name='email']");
     private By NextButton=By.xpath("//button[@class='yes-btn']");
@@ -33,6 +33,8 @@ public class EditMerchantScreen {
     private By MerchantNameErrorMessage=By.xpath("//div[@class='col'][contains(.,'Merchant name')]//h6");
     private By MerchantCodeErrorMessage=By.xpath("//div[@class='col'][contains(.,'Merchant Code')]//h6");
     private By MerchantEmailErrorMessage=By.xpath("//div[@class='col'][contains(.,'Merchant Email')]//h6");
+    private By MerchantCityErrorMessage=By.xpath("");
+
 
 
     //Check that element is present
@@ -151,14 +153,14 @@ public class EditMerchantScreen {
     }
 
     @Step("Edit Country")
-    public void EditCountry(String Country)
+    public void EditMerchantCountry(String Country)
     {
         driver.findElement(MerchantCountryField).sendKeys(Country);
         driver.findElement(MerchantCountryField).sendKeys(Keys.ENTER);
     }
 
     @Step("Edit City")
-    public void EditCity(String City)
+    public void EditMerchantCity(String City)
     {
         driver.findElement(MerchantCityField).sendKeys(City);
         driver.findElement(MerchantCityField).sendKeys(Keys.ENTER);
@@ -261,8 +263,10 @@ public class EditMerchantScreen {
         wait.pollingEvery(Duration.ofSeconds(1));
         wait.until(ExpectedConditions.elementToBeClickable(NextButton));
 
+        WebElement element=driver.findElement(NextButton);
+        JavascriptExecutor ex=(JavascriptExecutor)driver;
+        ex.executeScript("arguments[0].click();",element);
 
-        driver.findElement(NextButton).click();
         return new SchemeScreenAfterEditMerchantScreen(driver);
     }
     @Step("Click on Cancel Button")
@@ -310,6 +314,17 @@ public class EditMerchantScreen {
     public String GetTextOfMerchantEmailErrorMsg()
     {
         return(driver.findElement(MerchantEmailErrorMessage).getText());
+    }
+
+    @Step("check Presence of Merchant City Error Message")
+    public boolean CheckPresenceOfMerchantCityErrorMsg()
+    {
+        return IsElementPresent(MerchantCityErrorMessage);
+    }
+    @Step("Get the Text Of Merchant City Error Message")
+    public String GetTextOfMerchantCityErrorMsg()
+    {
+        return(driver.findElement(MerchantCityErrorMessage).getText());
     }
 
 }

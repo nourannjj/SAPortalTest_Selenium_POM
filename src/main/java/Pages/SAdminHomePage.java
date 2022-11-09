@@ -8,6 +8,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -48,7 +49,7 @@ public class SAdminHomePage {
     private By FilterButton=By.xpath("//button[contains(.,'Filter')]");
     private By SortingButton=By.xpath("//div[@class='up-down']");
     private By EditButton=By.xpath("//*[@id=\"merchant\"]/div/div[2]/table/tbody/tr[1]/td[13]/div/span[1]");
-    private By AllEditButton=By.xpath("//div[@class='right-content d-flex']//span[1]");
+    private By AllEditButton=By.xpath("//*[@id=\"merchant\"]/div/div[2]/table/tbody/tr/td[13]/div/span[1]");
     private By CreateMerchant=By.xpath("//h5[contains(.,'Create Merchant')]");
     private By TableOfMerchants=By.xpath("//tbody");
     private By MerchantTableRows=By.xpath("//tbody//tr");
@@ -266,9 +267,12 @@ public class SAdminHomePage {
         wait.withTimeout(Duration.ofSeconds(10));
         wait.pollingEvery(Duration.ofSeconds(1));
         wait.until(ExpectedConditions.elementToBeClickable(RefreshButton));
+       // WebElement element=driver.findElement(RefreshButton);
+        //JavascriptExecutor executor = (JavascriptExecutor)driver;
+        //executor.executeScript("arguments[0].click();", element);*/
         WebElement element=driver.findElement(RefreshButton);
-        JavascriptExecutor executor = (JavascriptExecutor)driver;
-        executor.executeScript("arguments[0].click();", element);
+        Actions actions=new Actions(driver);
+        actions.moveToElement(element).click().perform();
 
     }
     @Step("Check Presence of Logout button")
@@ -350,7 +354,15 @@ public class SAdminHomePage {
 
         List<WebElement> MerchantTableContents=GetContentsOfMerchantTable();
         int MerchantNum=MerchantTableContents.size()/13;
-        if (MerchantNum==0) Thread.sleep(10000);
+        //if contents of merchant table isn't displayed yet
+
+        while(MerchantNum==0)
+        {
+            MerchantTableContents=GetContentsOfMerchantTable();
+            MerchantNum=MerchantTableContents.size()/13;
+        }
+
+
         System.out.println("Merchant num= "+MerchantNum);
 
         //Create array of Merchants and assign each attribute to the corresponding element in merchant object
@@ -386,13 +398,13 @@ public class SAdminHomePage {
         for (i=0;i<MerchantNum;i++)
         {
             if((Merchants[i].MerchantName).equals(MerchantName)) {
-                System.out.println("i="+i);
+                System.out.println("i is equal"+i);
                 break;
             }
         }
         //if Merchant doesn't exist in merchant tale (i=Merchant number) or there is no merchant return null
         if(i==MerchantNum||MerchantNum==0) return null;
-        return Merchants[i];
+        else return Merchants[i];
     }
     @Step("Open the details screen of a specific merchant")
     public MerchantDetailsScreen OpenDetailsScreenForASpecificMerchant (String MerchantName) throws IOException, InterruptedException {
@@ -464,17 +476,28 @@ public class SAdminHomePage {
     }
 
     @Step("Open the Edit screen of a specific merchant")
-    public MerchantDetailsScreen OpenEditScreenForASpecificMerchant (String MerchantName) throws IOException, InterruptedException {
+    public EditMerchantScreen OpenEditScreenForASpecificMerchant (String MerchantName) throws IOException, InterruptedException {
         //Get the Details of a specific merchant
         MerchantDetails Merchants  = GetaSpecificMerchantFromMerchantTable(MerchantName);
+        System.out.println("Merchant name is:"+Merchants.MerchantName);
+        System.out.println("Merchant index is:"+Merchants.Merchant_Index);
+
         //Get all edit button elements
         List<WebElement> EditButtons=driver.findElements(AllEditButton);
-        System.out.println(EditButtons.size());
+        System.out.println("number of edit button is"+EditButtons.size());
+        WebElement element=EditButtons.get(Merchants.Merchant_Index);
+
         //wait Edit button is clickable
-        WebDriverWait wt = new WebDriverWait(driver, 5);
-        wt.until(ExpectedConditions.elementToBeClickable (AllEditButton));
-        EditButtons.get(Merchants.Merchant_Index).click();
-        return new MerchantDetailsScreen(driver);
+        FluentWait wait = new FluentWait(driver);
+        wait.withTimeout(Duration.ofSeconds(10));
+        wait.pollingEvery(Duration.ofSeconds(1));
+        wait.until(ExpectedConditions.elementToBeClickable(element));
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).click().perform();
+
+        return new EditMerchantScreen(driver);
+
     }
     @Step("Check The Presence Of Edit Button For A Specific Merchant")
     public boolean CheckThePresenceOfEditButtonForASpecificMerchant(String MerchantName) throws IOException, InterruptedException {

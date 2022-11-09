@@ -49,8 +49,17 @@ public class SchemeScreenAfterEditMerchantScreen {
     @Step("Click On Finish Button")
     public SAdminHomePage ClickOnFinishButton()
     {
-      driver.findElement(FinishButton).click();
-      return new SAdminHomePage(driver);
+        WebElement finishButton=driver.findElement(FinishButton);
+
+        FluentWait wait = new FluentWait(driver);
+        wait.withTimeout(Duration.ofSeconds(10));
+        wait.pollingEvery(Duration.ofSeconds(1));
+        wait.until(ExpectedConditions.elementToBeClickable(finishButton));
+
+        JavascriptExecutor ex = (JavascriptExecutor)driver;
+        ex.executeScript("arguments[0].click();", finishButton);
+
+        return new SAdminHomePage(driver);
     }
     @Step("Scroll Down until a specific element")
     public void ScrollDown(By by) throws InterruptedException {
@@ -67,8 +76,13 @@ public class SchemeScreenAfterEditMerchantScreen {
 
         List<WebElement> addButtons=driver.findElements(AddButton);
         for (int i=0;i<addButtons.size();i++) {
+            WebElement addButton=driver.findElement(AddButton);
             ScrollDown(AddButton);
             wait.until(ExpectedConditions.elementToBeClickable(AddButton));
+
+            JavascriptExecutor ex = (JavascriptExecutor)driver;
+            ex.executeScript("arguments[0].click();", addButton);
+
             driver.findElement(AddButton).click();
         }
     }
