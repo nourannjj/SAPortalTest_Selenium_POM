@@ -39,11 +39,12 @@ public class MerchantDetailsScreen {
        return IsElementPresent(MerchantNameField);
     }
 
-    @Step("Check the similarity between the Expected Merchant name and th actual name exist in the Merchant Name filed")
-    public boolean CheckThatMerchantNameFiledContainsTheRightValue(String ExpectedMerchantName)
+    @Step("Read data  in the Merchant Name filed")
+    public String ReadDataInMerchantNameField()
     {
         String ActualMerchantName=driver.findElement(MerchantNameField).getText();
-        return (ActualMerchantName.equals(ExpectedMerchantName));
+        return ActualMerchantName;
+
     }
 
     @Step("Check the presence of merchant Code filed")
@@ -52,11 +53,11 @@ public class MerchantDetailsScreen {
         return IsElementPresent(MerchantCodeFiled);
     }
 
-    @Step("Check the similarity between the Expected Merchant code and the actual code exist in the Merchant code filed")
-    public boolean CheckThatMerchantCodeFiledContainsTheRightValue(String ExpectedMerchantCode)
+    @Step("Read data in the Merchant code filed")
+    public String ReadDataInMerchantCodeFiled()
     {
         String ActualMerchantName=driver.findElement(MerchantCodeFiled).getText();
-        return (ActualMerchantName.equals(ExpectedMerchantCode));
+        return ActualMerchantName;
     }
 
 }

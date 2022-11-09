@@ -1146,6 +1146,24 @@ public class SAdminHomePageTest extends BaseTest {
                                                 Comm="Error:Clicking on the Merchant Details button doesn't navigate to the Merchant Details screen";
                                                 softAssert.assertEquals(Check,true,Comm);
 
+                                                //if navigated successfully to merchant details screen check the data in merchant name field and merchant code field
+                                                if(Check)
+                                                {
+                                                    //Check data in merchant name field
+                                                    String ActualMerchantName=merchantDetailsScreen.ReadDataInMerchantNameField();
+                                                    String ExpectedMerchantName=props.getProperty("MerchantName");
+                                                    Comm="Error:Merchant name field in merchant details screen contains wrong data ";
+                                                    softAssert.assertEquals(ActualMerchantName,ExpectedMerchantName,Comm);
+
+                                                    //Check data in merchant code field
+                                                    String ActualMerchantCode=merchantDetailsScreen.ReadDataInMerchantCodeFiled();
+                                                    String ExpectedMerchantCode=props.getProperty("MerchantCode");
+                                                    Comm="Error:Merchant code field in merchant details screen contains wrong data ";
+                                                    softAssert.assertEquals(ActualMerchantCode,ExpectedMerchantCode,Comm);
+
+                                                }
+
+
                                             }
                                         }
 
