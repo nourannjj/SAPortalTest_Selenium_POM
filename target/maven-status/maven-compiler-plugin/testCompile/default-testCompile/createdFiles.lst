@@ -1,0 +1,6 @@
+Listerners\AllureListener.class
+Base\BaseTest.class
+Tests\LoginPageTest.class
+Tests\FirstPageTest.class
+Tests\ForgetPassPageTest.class
+Tests\OTPPageTest.class

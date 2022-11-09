@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <listeners>
+        <listener class-name="Listerners.AllureListener"></listener>
+    </listeners>
+    <test verbose="2" preserve-order="true" name="Test Forget Pass screen">
+        <classes>
+            <class name="Tests.ForgetPassPageTest">
+                <methods>
+                    <include name="TC_PSA_0013"/>
+                    <include name="TC_PSA_0014"/>
+                    <include name="TC_PSA_0015"/>
+                    <include name="TC_PSA_0016"/>
+                    <include name="TC_PSA_0017"/>
+                    <include name="TC_PSA_0018"/>
+                    <include name="TC_PSA_0019"/>
+                    <include name="TC_PSA_0020"/>
+                    <include name="TC_PSA_0021"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

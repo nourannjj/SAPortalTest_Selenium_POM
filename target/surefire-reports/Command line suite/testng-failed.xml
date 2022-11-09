@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Command line suite]" verbose="0">
+  <test thread-count="5" name="Command line test(failed)" verbose="0">
+    <classes>
+      <class name="Tests.FirstPageTest">
+        <methods>
+          <include name="TC_PSA_0001"/>
+          <include name="BeforeClass"/>
+          <include name="AfterMethod"/>
+          <include name="AfterClass"/>
+          <include name="TC_PSA_0002"/>
+        </methods>
+      </class> <!-- Tests.FirstPageTest -->
+      <class name="Tests.LoginPageTest">
+        <methods>
+          <include name="BeforeClass"/>
+          <include name="AfterMethod"/>
+          <include name="AfterClass"/>
+          <include name="TC_PSA_0003"/>
+        </methods>
+      </class> <!-- Tests.LoginPageTest -->
+    </classes>
+  </test> <!-- Command line test(failed) -->
+</suite> <!-- Failed suite [Command line suite] -->
